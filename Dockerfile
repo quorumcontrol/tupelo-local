@@ -1,5 +1,5 @@
 FROM debian:stretch-slim
-LABEL maintainer="dev@quroumcontrol.com"
+LABEL maintainer="dev@quorumcontrol.com"
 
 RUN apt-get update && \
     apt-get install -y jq && \
