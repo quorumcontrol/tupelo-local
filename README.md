@@ -43,3 +43,19 @@ volumes:
 Then simply use docker for tests / app in a container as normal. Mounting `tupelo-local:/tupelo-local` will provide assitance in running against this localnet:
 - notary group config at `/tupelo-local/config/notarygroup.toml`
 - `/tupelo-local/wait-for-tupelo.sh` which will sleep until tupelo is running, then exec the provided command
+
+
+## Building Tupelo from source
+Sometimes it may be desirable to build tupelo from source rather than point to a published image, such as for testing the tupelo repo itself. In this case, you can specify `TUPELO_BUILD_PATH` environment variable to the `tupelo` service along with a mounted directory, at which point it will do a `docker-compose build` on that path for the tupelo bootstrap and signer nodes. For example the `tupelo` service would look like:
+
+``` yaml
+services:
+  tupelo:
+    image: quorumcontrol/tupelo-local:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - tupelo-local:/tupelo-local
+      - .:/src/tupelo # EXAMPLE: Mount from and to any valid directory
+    environment:
+      TUPELO_BUILD_PATH: /src/tupelo # EXAMPLE: Matching the mount path above
+```
