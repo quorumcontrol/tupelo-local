@@ -12,9 +12,18 @@ export COMMUNITY_VERSION=${COMMUNITY_VERSION:-$TUPELO_VERSION}
 export NETWORK_NAME=$net
 export VOLUME_NAME=$volume
 
-dockerCompose="docker-compose -f ./docker-compose.yml -p $project"
+dockerCompose="docker-compose -p $project -f ./docker-compose.yml"
 
+# docker-compose 1.24.1 and 1.25.0 behave differently when both `build` and `image` are specified
+# according to the docs, we should be able to have both in the same docker-compose.yml and
+# "non buildable" services would fallback to pulling an image (aka when `TUPELO_BUILD_PATH` is empty)
+# that is the behavior in in 1.24.1, but not in 1.25.0 currently. So for now, using a separate override
+# docker-compose.tupelobuild.yml with the build commands. This may change in the future and can revert to
+# a single docker-compose.yml with both the build and image attributes
+#
+# see https://github.com/docker/compose/pull/7039 and https://github.com/docker/compose/pull/7052
 if [[ "$TUPELO_BUILD_PATH" != "" ]]; then
+  dockerCompose+=" -f ./docker-compose.tupelobuild.yml"
   $dockerCompose build
 fi
 

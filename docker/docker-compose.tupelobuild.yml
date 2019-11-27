@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  bootstrap:
+    build: "${TUPELO_BUILD_PATH}"
+      
+  node0:
+    build: "${TUPELO_BUILD_PATH}"
+
+  node1:
+    build: "${TUPELO_BUILD_PATH}"
+  
+  node2:
+    build: "${TUPELO_BUILD_PATH}"
