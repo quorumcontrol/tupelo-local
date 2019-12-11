@@ -3,7 +3,7 @@ version: "3"
 services:
   bootstrap:
     image: quorumcontrol/tupelo:${TUPELO_VERSION}
-    build: "${TUPELO_BUILD_PATH}"
+    entrypoint: ["/usr/bin/tupelo"]
     command: ["bootstrap-node", "--config", "/tupelo-local/config/bootstrap.toml", 
       "-L", "${TUPELO_LOG_LEVEL:-error}"]
     volumes:
@@ -16,25 +16,25 @@ services:
       
   node0:
     image: quorumcontrol/tupelo:${TUPELO_VERSION}
-    build: "${TUPELO_BUILD_PATH}"
     volumes:
       - tupelo-local:/tupelo-local
+    entrypoint: ["/usr/bin/tupelo"]
     command: ["test-node", "--config", "/tupelo-local/config/node0.toml",
       "-L", "${TUPELO_LOG_LEVEL:-error}"]
 
   node1:
     image: quorumcontrol/tupelo:${TUPELO_VERSION}
-    build: "${TUPELO_BUILD_PATH}"
     volumes:
       - tupelo-local:/tupelo-local
+    entrypoint: ["/usr/bin/tupelo"]
     command: ["test-node", "--config", "/tupelo-local/config/node1.toml",
       "-L", "${TUPELO_LOG_LEVEL:-error}"]
   
   node2:
     image: quorumcontrol/tupelo:${TUPELO_VERSION}
-    build: "${TUPELO_BUILD_PATH}"
     volumes:
       - tupelo-local:/tupelo-local
+    entrypoint: ["/usr/bin/tupelo"]
     command: ["test-node", "--config", "/tupelo-local/config/node2.toml",
       "-L", "${TUPELO_LOG_LEVEL:-error}"]
 
